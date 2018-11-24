@@ -18,6 +18,7 @@ var citySchema = new mongoose.Schema({
     rating: Array(30), 
     name: String, 
     term: String, 
+    dog: String
     
    
 })
