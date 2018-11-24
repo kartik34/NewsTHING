@@ -1,18 +1,23 @@
 var express     = require("express"),
     bodyParser  = require("body-parser"), 
     mongoose    = require("mongoose"), 
-    app         = express(); 
+    app         = express(), 
+    Twitter     = require('twitter'),
+    indico      = require('indico.io');
+
     
 //=================================================================
-//             CONNECTING LIBRARIES
+//                      CONNECTING LIBRARIES
+//=================================================================
 
 mongoose.connect("mongodb://localhost/test6"); 
 app.use(bodyParser.urlencoded({extended: true})); 
 app.set("view engine", "ejs"); 
 
 //=================================================================
-//                MONGODB CONFIG
- 
+//                        MONGODB CONFIG
+//=================================================================
+
 
 var citySchema = new mongoose.Schema({
     rating: Array(30), 
@@ -22,70 +27,34 @@ var citySchema = new mongoose.Schema({
    
 })
 
-<<<<<<< HEAD
-var Mole = mongoose.model("Mole", citySchema); 
-=======
-var City = mongoose.model("City", citSchema); 
->>>>>>> 3e53c7b2e5f5922a411ebd16e9f4781b0b3c0fb0
+var City = mongoose.model("City", citySchema); 
+
 
 //===================================================================
-//                ROUTES
+//                       TWITTER and INDICO API SETUP
+//===================================================================
+
+var client = new Twitter({
+  consumer_key: 'Q6NIPLpK4oAgQBpB9ZcrF2gpo',
+  consumer_secret: 'TOLJ4E0zd5797xTUnQwiei1y5H6aFVvbw08c8vxkrfDWwiVDHz',
+  access_token_key: '1129780500-eAPePh6Iu0eqdYYB2vjF3oVcR672pXdnENpSjOG',
+  access_token_secret: '5U9FouLuC5DiKC7XN49Gh1aM4Y31KBnnDn7SmiRKFbj37'
+});
+
+indico.apiKey = "c43cb8fea029c7d120fd961f79ed4774";
+
+
+//===================================================================
+//                           ROUTES
+//===================================================================
 
 app.get("/", function(req, res){
     res.render("home")
-    
 });
 
-app.get("/showpage/:id", function(req,res){
-    Mole.findById(req.params.id, function(err, foundMole){
-        if(err){
-            res.redirect("index")
-        }else{
-            console.log(foundMole)
-            res.render("show", {mole: foundMole})
-        }
-    })
-})
-app.put("/showpage/:id", function(req,res){
-    
-    
-    
-    
-    Mole.findByIdAndUpdate(req.params.id, req.body.message, function(err, updatedMole){
-        if(err){
-            res.redirect("index")
-        }else{
-            console.log(updatedMole)
-            var id = updatedMole.basicId.toString()
-            var string = "message"
-        
-            
-          admin.database().ref("/").update({[updatedMole.basicId] : req.body.message});
-
-
-          
-          res.redirect(updatedMole._id)
-
-         
-            
-        }
-    })
-})
-
-app.post("/showpage", function(req,res){
-    //edit mole db to include new message 
-    
-})
-
-
-
-
-
-
-
-
-
-
+app.post("/add_city", function(req, res) {
+    res.redirect("/")
+});
 
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log("Server is listening"); 
