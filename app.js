@@ -17,13 +17,12 @@ app.set("view engine", "ejs");
 var citySchema = new mongoose.Schema({
     rating: Array(30), 
     name: String, 
-    term: String, 
-    dog: String
+    term: String
     
    
 })
 
-var Mole = mongoose.model("Mole", moleSchema); 
+var Mole = mongoose.model("Mole", citySchema); 
 
 //===================================================================
 //                ROUTES
