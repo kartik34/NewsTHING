@@ -22,12 +22,17 @@ var citySchema = new mongoose.Schema({
    
 })
 
+<<<<<<< HEAD
 var Mole = mongoose.model("Mole", citySchema); 
+=======
+var City = mongoose.model("City", citSchema); 
+>>>>>>> 3e53c7b2e5f5922a411ebd16e9f4781b0b3c0fb0
 
 //===================================================================
 //                ROUTES
 
 app.get("/", function(req, res){
+    res.render("home")
     
 });
 
