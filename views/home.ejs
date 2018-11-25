@@ -1,24 +1,258 @@
 <html>
     <head>
-        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="/stylesheets/home.css"/>
-        <title>PoliTrends</title>
-        <center><h1>PoliTrends</h1></center>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link rel="stylesheet" href="/stylesheets/home.css"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+        <title>PolyTrends</title>
+        <center><h1>PolyTrends</h1></center>
     </head>
 
     <body>
         <center>
-            <form class="pure-form">
-                <div class="row">
-                    <input type="text" class="pure-input-rounded">
-                    <input type="text" class="pure-input-rounded" style="margin-left: 150px;">
-                </div>
-                <div class="row">
-                    <input type="text" class="pure-input-rounded" style="margin-left: 150px; margin-top: 10px;">
-                </div>
-                <button type="submit" class="pure-button">Search</button>
+            <% count1 = 0 %>
+            <% count2 = 0 %>
+            <% data1.forEach(function(data1){%>
+            <% count1 = count1 + parseFloat(data1) %>
+            <% }) %>
+            <% data2.forEach(function(data2){%>
+            <% count2 = count2 + parseFloat(data2) %>
+            <% }) %>
+            <% var daily_size = size1.length / 7 %>
+            <% var daily_size2 = size2.length / 7 %>
+            
+            
+            <%var avg1 = count1/size1.length %>
+            <%var avg2 = count2/size2.length %>
+            
+            <% var count = 0 %>
+            <% var arr = [] %>
+            <% for(var i = 0; i < 7; i++) { %>
+                <% for (var j = i*Math.floor(daily_size); j < (i+1)*Math.floor(daily_size); j++) { %>
+                    <% count = count + data1[j] %>
+                <% } %>
+                <h2><% var avg1_day = count/Math.floor(daily_size) %></h2>
+                <% arr.push(avg1_day) %>
+                <% count = 0 %>
+            <% } %>
+            
+            <% var count = 0 %>
+            <% var arr2 = [] %>
+            <% for(var i = 0; i < 7; i++) { %>
+                <% for (var j = i*Math.floor(daily_size2); j < (i+1)*Math.floor(daily_size2); j++) { %>
+                    <% count = count + data2[j] %>
+                <% } %>
+                <h2><% var avg2_day = count/Math.floor(daily_size2) %></h2>
+                <% arr2.push(avg2_day) %>
+                <% count = 0 %>
+            <% } %>
+            <!--<form autocomplete="off" style="margin-top: 100px; margin-left: 32%;" class="col s12" action="/form" method="POST">-->
+            <!--    <div class="row" class="autocomplete">-->
+            <!--        <div class="input-field col s6">-->
+            <!--            <input placeholder="Term" id="myInput" type="text" name="term1" class="validate">-->
+            <!--        </div>-->
+            <!--    </div>-->
+            <!--    <div class="row" class="autocomplete">-->
+            <!--        <div class="input-field col s6">-->
+            <!--            <input placeholder="Term" id="myInput2" type="text" name="term2" class="validate">-->
+            <!--        </div>-->
+            <!--    </div>-->
+            <!--    <div class="row">-->
+            <!--        <div class="input-field col s6">-->
+            <!--            <button class="waves-effect waves-light btn-large" style="margin-top: 50px;">Analyze</button>-->
+            <!--        </div>-->
+            <!--    </div>-->
+            <!--</form>-->
+            <!--<script src="/autocomplete.js"></script>-->
+            <!--<script>-->
+            <!--    var newArray = "";-->
+            <!--    var termSuggestions = newArray.split(",");-->
                 
-            </form>
+            <!--    autocomplete(document.getElementById("myInput"), termSuggestions);-->
+            <!--    autocomplete(document.getElementById("myInput2"), termSuggestions);-->
+            <!--</script>-->
+            <div class="chart-container" style="position: relative; height:40vh; width:80vw; margin-top: 150px;">
+                <canvas id="myChart" style="margin-bottom: 300px;"></canvas>
+            </div>
+            <!--<canvas id="myChart" style="height: 100px; width: 100px;"></canvas>-->
+            <script>
+            var ctx = document.getElementById("myChart").getContext('2d');
+            var scatterChart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: "<%= term_1 %>",
+                        data: [{
+                            x: 1,
+                            y: <%= arr[0] %>
+                        }, {
+                            x: 2,
+                            y: <%= arr[1] %>
+                        }, {
+                            x: 3,
+                            y: <%= arr[2] %>
+                        }, {
+                            x: 4,
+                            y: <%= arr[3] %>
+                        }, {
+                            x: 5,
+                            y: <%= arr[4] %>
+                        }, {
+                            x: 6,
+                            y: <%= arr[5] %>
+                        }, {
+                            x: 7,
+                            y: <%= arr[6] %>
+                        }],
+                        borderColor: "#3e95cd",
+                        fill: false,
+                    }, {
+                        label: "<%= term_2 %>",
+                        data: [{
+                            x: 1,
+                            y: <%= arr2[0] %>
+                        }, {
+                            x: 2,
+                            y: <%= arr2[1] %>
+                        }, {
+                            x: 3,
+                            y: <%= arr2[2] %>
+                        }, {
+                            x: 4,
+                            y: <%= arr2[3] %>
+                        }, {
+                            x: 5,
+                            y: <%= arr2[4] %>
+                        }, {
+                            x: 6,
+                            y: <%= arr2[5] %>
+                        }, {
+                            x: 7,
+                            y: <%= arr2[6] %>
+                        }],
+                        borderColor: "#c45850",
+                        fill: false,
+                    }]
+                },
+                options : {
+                    scales: {
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Sentiment',
+                                ticks: {
+                                    beginAtZero: true,
+                                    max: 1,
+                                }
+                            }
+                        }],
+                        xAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Day',
+                                ticks: {
+                                    beginAtZero: true,
+                                    max: 7,
+                                }
+                            }
+                        }],
+                    }
+                }
+            });
+            </script>
         </center>
+            <div class="chart-container" style="position: relative; height:10vh; width:30vw; margin-top: 150px;">
+                <canvas id="pie-chart" style="margin-bottom: 300px; margin-top: 400px; margin-left: 170px;"></canvas>
+            </div>
+            <script>
+                new Chart(document.getElementById("pie-chart"), {
+                    type: 'pie',
+                    data: {
+                        labels: ["Positive", "Negative"],
+                        datasets: [{
+                            label: "Population (millions)",
+                            backgroundColor: ["#32CD32", "#DC143C"],
+                            data: [<%= arr[5].toFixed(2) %>,<%= (1-arr[5]).toFixed(2) %>]
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'Daily Average Sentiment: <%= term_1 %>',
+                            fontSize: 40,
+                        }
+                    }
+                });
+            </script>
+            <div class="chart-container" style="position: relative; height:10vh; width:30vw;">
+                <canvas id="pie-chart2" style="margin-bottom: 300px; margin-top: -78px; margin-left: 750px;"></canvas>
+            </div>
+            <script>
+                new Chart(document.getElementById("pie-chart2"), {
+                    type: 'pie',
+                    data: {
+                        labels: ["Positive", "Negative"],
+                        datasets: [{
+                            label: "Population (millions)",
+                            backgroundColor: ["#32CD32", "#DC143C"],
+                            data: [<%= arr2[5].toFixed(2) %>,<%= (1-arr2[5]).toFixed(2) %>]
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'Daily Average Sentiment: <%= term_2 %>',
+                            fontSize: 40,
+                        }
+                    }
+                });
+            </script>
+            
+            <div class="chart-container" style="position: relative; height:10vh; width:30vw; margin-top: 150px;">
+                <canvas id="pie-chart3" style="margin-bottom: 300px; margin-top: 550px; margin-left: 170px;"></canvas>
+            </div>
+            <script>
+                new Chart(document.getElementById("pie-chart3"), {
+                    type: 'pie',
+                    data: {
+                        labels: ["Positive", "Negative"],
+                        datasets: [{
+                            label: "Population (millions)",
+                            backgroundColor: ["#32CD32", "#DC143C"],
+                            data: [<%=avg1.toFixed(2)%>, <%=(1-avg1).toFixed(2)%>]
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'Weekly Average Sentiment: <%= term_1 %>',
+                            fontSize: 40,
+                        }
+                    }
+                });
+            </script>
+            <div class="chart-container" style="position: relative; height:10vh; width:30vw;">
+                <canvas id="pie-chart4" style="margin-bottom: 300px; margin-top: -78px; margin-left: 750px;"></canvas>
+            </div>
+            <script>
+                new Chart(document.getElementById("pie-chart4"), {
+                    type: 'pie',
+                    data: {
+                        labels: ["Positive", "Negative"],
+                        datasets: [{
+                            label: "Population (millions)",
+                            backgroundColor: ["#32CD32", "#DC143C"],
+                            data: [<%= avg2.toFixed(2) %>, <%= (1-avg2).toFixed(2) %>]
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'Weekly Average Sentiment: <%= term_2 %>',
+                            fontSize: 40,
+                        }
+                    }
+                });
+            </script>
     </body>
 </html>

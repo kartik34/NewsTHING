@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link rel="stylesheet" href="/stylesheets/home.css"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+        <title>PolyTrends</title>
+        <center><h1>PolyTrends</h1></center>
+    </head>
+
+    <body>
+        <center>
+            <form autocomplete="off" style="margin-top: 100px; margin-left: 32%;" class="col s12" action="/form" method="POST">
+                <div class="row" class="autocomplete">
+                    <div class="input-field col s6">
+                        <input placeholder="Term" id="myInput" type="text" name="term1" class="validate">
+                    </div>
+                </div>
+                <div class="row" class="autocomplete">
+                    <div class="input-field col s6">
+                        <input placeholder="Term" id="myInput2" type="text" name="term2" class="validate">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <button class="waves-effect waves-light btn-large" style="margin-top: 50px;">Analyze</button>
+                    </div>
+                </div>
+            </form>
+            <script src="/autocomplete.js"></script>
+            <script>
+                var newArray = "<%= suggest %>";
+                var termSuggestions = newArray.split(",");
+                
+                autocomplete(document.getElementById("myInput"), termSuggestions);
+                autocomplete(document.getElementById("myInput2"), termSuggestions);
+            </script>
+        </center>
+    </body>
+</html>
