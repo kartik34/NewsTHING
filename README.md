@@ -1,2 +1,3 @@
-# PolitiFact
-Compare political trends between cities
+# newsTHING
+
+Compare societal trends between topics
